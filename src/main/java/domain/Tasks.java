@@ -33,7 +33,7 @@ public class Tasks {
             System.out.print(" | " + tasksList.get(i).getEnumStatus());
             System.out.print(" | Criada em: " + tasksList.get(i).getCreatedAt());
             System.out.println(" | Atualizada em: " + tasksList.get(i).getUpdatedAt());
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("");
         }
     }
     public int getId() {

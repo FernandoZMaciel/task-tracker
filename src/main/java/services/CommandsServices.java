@@ -61,16 +61,41 @@ public class CommandsServices {
             }
         } else if (command.getFirst().equalsIgnoreCase("mark")) {
             int index = command.get(1).indexOf(" ");
-            System.out.println("ID:" + command.get(1).substring(0, index));
-            System.out.println("STATUS: " + command.get(1).substring(index +1));
             try {
-                JSONServices.updateTasksStatus(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index+1));
+                JSONServices.updateTasksStatus(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index + 1));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            return  true;
+            return true;
+        } else if (command.getFirst().equalsIgnoreCase("help")) {
+           if (command.size()==1){
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("Escreva \"add descrição\" para adicionar uma nova task.");
+                System.out.println("Escreva \"update id descrição\" para modificar uma task.");
+                System.out.println("Escreva \"delete id descrição\" para deletar uma task.");
+                System.out.println("Escreva \"delete id descrição\" para deletar uma task.");
+                System.out.println("Escreva \"list status \" para listar as tasks.");
+                System.out.println("Escreva \"mark id status \" para mudar os status de uma task.");
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                return  true;
+            }
+
+            if(command.get(1).equalsIgnoreCase("list")) {
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("Escreva \"list status\" para listar as tasks.");
+                System.out.println("As opções de status são: all, todo, done, inprogress.");
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+            if(command.get(1).equalsIgnoreCase("mark")) {
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("Escreva \"mark id status\" para atualizar o status de uma task.");
+                System.out.println("As opções de status são: todo, done, inprogress.");
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+
+            return true;
         } else {
-            System.out.println("Comando inválido");
+            System.out.println("Comando inválido digite \"help\" para ver a lista de comandos");
             return true;
         }
     }
