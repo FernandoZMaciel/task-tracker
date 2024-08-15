@@ -20,7 +20,7 @@ public class CommandsServices {
         }
     }
 
-    public boolean selectCommand(List<String> command) {
+    public boolean selectCommand(List<String> command) throws RuntimeException {
         if (command.getFirst().equalsIgnoreCase("add")) {
             try {
                 JSONServices.addTask(command.get(1));
@@ -33,7 +33,7 @@ public class CommandsServices {
         } else if (command.getFirst().equalsIgnoreCase("update")) {
             int index = command.get(1).indexOf(" ");
             try {
-                JSONServices.updateTask(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index+1));
+                JSONServices.updateTask(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index + 1));
                 JSONServices.normalizeId();
                 return true;
             } catch (IOException e) {
@@ -59,6 +59,16 @@ public class CommandsServices {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        } else if (command.getFirst().equalsIgnoreCase("mark")) {
+            int index = command.get(1).indexOf(" ");
+            System.out.println("ID:" + command.get(1).substring(0, index));
+            System.out.println("STATUS: " + command.get(1).substring(index +1));
+            try {
+                JSONServices.updateTasksStatus(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index+1));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return  true;
         } else {
             System.out.println("Comando inválido");
             return true;

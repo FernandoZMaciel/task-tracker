@@ -55,6 +55,28 @@ public class JSONServices {
         System.out.println("Task deletada com sucesso!");
     }
 
+    public static void updateTasksStatus(int id, String status) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("Atualizando " + id);
+        List<Tasks> listTasks = listTasks("all");
+        for (int i = 0; i < listTasks.size(); i++) {
+            if(listTasks.get(i).getId() == id){
+                if(status.equalsIgnoreCase("todo")){
+                    listTasks.get(i).setEnumStatus(EnumStatus.TODO);
+                } else if(status.equalsIgnoreCase("done")){
+                    listTasks.get(i).setEnumStatus(EnumStatus.DONE);
+                } else if(status.equalsIgnoreCase("inprogress")){
+                    listTasks.get(i).setEnumStatus(EnumStatus.IN_PROGRESS);
+                } else {
+                    System.out.println("Comando inválido, digite \" help mark\" para mais detalhes.");
+                    return;
+                }
+            }
+        }
+        objectMapper.writeValue(new File("src/main/java/json/data.json"), listTasks);
+        System.out.println("Task atualizada com sucesso!");
+    }
+
     public static List<Tasks> listTasks(String command) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("src/main/java/json/data.json");

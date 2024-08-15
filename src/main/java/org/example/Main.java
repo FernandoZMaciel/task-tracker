@@ -15,6 +15,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         CommandsServices commandsServices = new CommandsServices();
         JSONServices.normalizeId();
+        commandsServices.selectCommand(commandsServices.readCommand("list all"));
         while (keepAsking) {
             System.out.print("Digite um comando: ");
             keepAsking = commandsServices.selectCommand(commandsServices.readCommand(input.nextLine()));
