@@ -1,15 +1,24 @@
 package domain;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class Tasks {
     private int id;
     private  String description;
     private EnumStatus enumStatus;
-    private Calendar createdAt;
-    private Calendar updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 
-    public Tasks(){
+    public Tasks(int id, String description, EnumStatus enumStatus, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.enumStatus = enumStatus;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Tasks(int id, String description, EnumStatus todo, long time, long dateTime){
     }
 
     public int getId() {
@@ -36,19 +45,19 @@ public class Tasks {
         this.enumStatus = enumStatus;
     }
 
-    public Calendar getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Calendar createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Calendar getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Calendar updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
