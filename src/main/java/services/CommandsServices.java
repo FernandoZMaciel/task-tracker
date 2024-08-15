@@ -1,14 +1,9 @@
 package services;
 
-import domain.EnumStatus;
 import domain.Tasks;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class CommandsServices {
@@ -25,38 +20,48 @@ public class CommandsServices {
         }
     }
 
-    public void selectCommand(List<String> command) {
+    public boolean selectCommand(List<String> command) {
         if (command.getFirst().equalsIgnoreCase("add")) {
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
             try {
-                Tasks tasks = new Tasks(1, command.get(1), EnumStatus.TODO, date, date);
-                JSONServices.addTask(tasks);
+                JSONServices.addTask(command.get(1));
+                JSONServices.normalizeId();
+                return true;
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         } else if (command.getFirst().equalsIgnoreCase("update")) {
             int index = command.get(1).indexOf(" ");
-            System.out.println("Atualizando " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index + 1));
             try {
                 JSONServices.updateTask(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index+1));
+                JSONServices.normalizeId();
+                return true;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else if (command.getFirst().equalsIgnoreCase("delete")) {
-            int index = command.get(1).indexOf(" ");
-            System.out.println("Excluindo " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index + 1));
+            try {
+                JSONServices.deleteTask(Integer.parseInt(command.get(1)));
+                JSONServices.normalizeId();
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else if (command.getFirst().equalsIgnoreCase("exit")) {
             System.out.println("Saindo do Programa");
+            return false;
         } else if (command.getFirst().equalsIgnoreCase("list")) {
             try {
-                System.out.println(JSONServices.listTasks(command.get(1)));
+                Tasks tasks = new Tasks();
+                tasks.printTasks(JSONServices.listTasks(command.get(1)));
+//                System.out.println(JSONServices.listTasks(command.get(1)));
+                return true;
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         } else {
             System.out.println("Comando inválido");
+            return true;
         }
     }
 

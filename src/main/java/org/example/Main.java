@@ -11,15 +11,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String status = " ";
-        int antiBreak = 0;
+        boolean keepAsking = true;
         Scanner input = new Scanner(System.in);
         CommandsServices commandsServices = new CommandsServices();
-        while (!status.equals("EXIT")) {
-            System.out.println("Programa rodando");
+        JSONServices.normalizeId();
+        while (keepAsking) {
             System.out.print("Digite um comando: ");
-            commandsServices.selectCommand(commandsServices.readCommand(input.nextLine()));
-            status = "EXIT";
+            keepAsking = commandsServices.selectCommand(commandsServices.readCommand(input.nextLine()));
         }
+        JSONServices.normalizeId();
     }
 }

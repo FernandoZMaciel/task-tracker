@@ -1,7 +1,8 @@
 package domain;
 
-import java.util.Calendar;
+import java.sql.SQLOutput;
 import java.util.Date;
+import java.util.List;
 
 public class Tasks {
     private int id;
@@ -24,6 +25,17 @@ public class Tasks {
     public Tasks(int id, String description, EnumStatus todo, long time, long dateTime){
     }
 
+    public void printTasks (List<Tasks> tasksList){
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < tasksList.size(); i++) {
+            System.out.print("ID:" +tasksList.get(i).getId());
+            System.out.print(" | " + tasksList.get(i).getDescription());
+            System.out.print(" | " + tasksList.get(i).getEnumStatus());
+            System.out.print(" | Criada em: " + tasksList.get(i).getCreatedAt());
+            System.out.println(" | Atualizada em: " + tasksList.get(i).getUpdatedAt());
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+    }
     public int getId() {
         return id;
     }
