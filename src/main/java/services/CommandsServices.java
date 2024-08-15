@@ -12,39 +12,49 @@ import java.util.Date;
 import java.util.List;
 
 public class CommandsServices {
-    public ArrayList<String> readCommand(String command){
+    public ArrayList<String> readCommand(String command) {
         int index = command.indexOf(" ");
         var finalCommand = new ArrayList<String>();
-        if (index != -1){
-            finalCommand.add(command.substring(0 , index));
-            finalCommand.add(command.substring(index +1));
+        if (index != -1) {
+            finalCommand.add(command.substring(0, index));
+            finalCommand.add(command.substring(index + 1));
             return finalCommand;
         } else {
             finalCommand.add(command);
-            return  finalCommand;
+            return finalCommand;
         }
     }
 
-    public void selectCommand (List<String> command){
-        if (command.getFirst().equalsIgnoreCase("add")){
+    public void selectCommand(List<String> command) {
+        if (command.getFirst().equalsIgnoreCase("add")) {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
-            System.out.println("Adicionando "+command.get(1));
             try {
-                Tasks tasks = new Tasks(1 , command.get(1), EnumStatus.TODO, date, date);
+                Tasks tasks = new Tasks(1, command.get(1), EnumStatus.TODO, date, date);
                 JSONServices.addTask(tasks);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        } else if (command.getFirst().equalsIgnoreCase("update")){
+        } else if (command.getFirst().equalsIgnoreCase("update")) {
             int index = command.get(1).indexOf(" ");
-            System.out.println("Atualizando " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index +1));
-        } else if (command.getFirst().equalsIgnoreCase("delete")){
+            System.out.println("Atualizando " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index + 1));
+            try {
+                JSONServices.updateTask(Integer.parseInt(command.get(1).substring(0, index)), command.get(1).substring(index+1));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (command.getFirst().equalsIgnoreCase("delete")) {
             int index = command.get(1).indexOf(" ");
-            System.out.println("Excluindo " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index +1));
-        } else if (command.getFirst().equalsIgnoreCase("exit")){
+            System.out.println("Excluindo " + command.get(1).substring(0, index) + " com descrição: " + command.get(1).substring(index + 1));
+        } else if (command.getFirst().equalsIgnoreCase("exit")) {
             System.out.println("Saindo do Programa");
+        } else if (command.getFirst().equalsIgnoreCase("list")) {
+            try {
+                System.out.println(JSONServices.listTasks(command.get(1)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Comando inválido");
         }

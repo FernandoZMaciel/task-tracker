@@ -10,6 +10,9 @@ public class Tasks {
     private Date createdAt;
     private Date updatedAt;
 
+    public Tasks() {
+    }
+
     public Tasks(int id, String description, EnumStatus enumStatus, Date createdAt, Date updatedAt) {
         this.id = id;
         this.description = description;
